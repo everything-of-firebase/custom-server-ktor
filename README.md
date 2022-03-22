@@ -6,8 +6,6 @@
 
 ## 셋업 방법
 
-**NOTE**:We recommend to have an `your-username/your-username` repo on your personal GitHub account and not on your org (they're unsupported yet).
-
 - [파이어베이스 콘솔](https://console.firebase.google.com)에 접속하여 신규 프로젝트를 생성한다. 
 
 - **프로젝트 설정** -> **서비스 계정**으로 이동하여 **Firebase Admin SDK**를 선택한 뒤 **새 비공개 키 생성**을 클릭한다.
