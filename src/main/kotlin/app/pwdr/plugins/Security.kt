@@ -1,5 +1,7 @@
 package app.pwdr.plugins
 
+import app.pwdr.auth.firebase
+import app.pwdr.config.firebase.AuthConfig.configure
 import io.ktor.server.auth.*
 import io.ktor.util.*
 import io.ktor.server.auth.jwt.*
@@ -18,6 +20,12 @@ import io.ktor.server.routing.*
 fun Application.configureSecurity() {
 
     authentication {
+        firebase {
+            configure()
+        }
+    }
+
+    /*authentication {
         basic(name = "myauth1") {
             realm = "Ktor Server"
             validate { credentials ->
@@ -33,10 +41,10 @@ fun Application.configureSecurity() {
             userParamName = "user"
             passwordParamName = "password"
             challenge {
-                /**/
+                *//**//*
             }
         }
-    }
+    }*/
     /*authentication {
         jwt {
             val jwtAudience = environment.config.property("jwt.audience").getString()
@@ -54,8 +62,8 @@ fun Application.configureSecurity() {
         }
     }*/
 
-    routing {
-        authenticate("myauth1") {
+    /*routing {*/
+        /*authenticate("myauth1") {
             get("/protected/route/basic") {
                 val principal = call.principal<UserIdPrincipal>()!!
                 call.respondText("Hello ${principal.name}")
@@ -66,7 +74,7 @@ fun Application.configureSecurity() {
                 val principal = call.principal<UserIdPrincipal>()!!
                 call.respondText("Hello ${principal.name}")
             }
-        }
+        }*/
         /*authenticate("auth-oauth-google") {
             get("login") {
                 call.respondRedirect("/callback")
@@ -78,7 +86,7 @@ fun Application.configureSecurity() {
                 call.respondRedirect("/hello")
             }
         }*/
-    }
+    /*}*/
 }
 
 class UserSession(accessToken: String)

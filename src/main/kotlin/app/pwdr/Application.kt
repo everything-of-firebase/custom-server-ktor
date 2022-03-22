@@ -1,29 +1,28 @@
 package app.pwdr
 
-import app.pwdr.plugins.*
+import app.pwdr.config.firebase.FirebaseAdmin
+import app.pwdr.plugins.configureCallLogging
+import app.pwdr.plugins.configureRouting
+import app.pwdr.plugins.configureSecurity
+import app.pwdr.plugins.configureSerialization
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
-import com.google.firebase.auth.ExportedUserRecord
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ListUsersPage
+import com.google.firebase.auth.FirebaseToken
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import io.ktor.server.routing.*
 import io.ktor.util.logging.*
-import java.time.Instant
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
 fun main() {
     val log = KtorSimpleLogger("main");
 
-    val options: FirebaseOptions = FirebaseOptions.builder()
-        .setCredentials(GoogleCredentials.getApplicationDefault())
-        .build()
-    FirebaseApp.initializeApp(options)
+    FirebaseAdmin.init()
 
-    val listUsersPage: ListUsersPage = FirebaseAuth.getInstance().listUsers(null)
+    // var firebaseToken: FirebaseToken = FirebaseAuth.getInstance().verifyIdToken("access_token")
+
+    /*val listUsersPage: ListUsersPage = FirebaseAuth.getInstance().listUsers(null)
     listUsersPage.values.map { userRecord: ExportedUserRecord? ->
         log.info("Email: {}", userRecord!!.email.toString())
 
@@ -33,11 +32,12 @@ fun main() {
         val createdDate = formatter.format(zonedDateTime)
 
         log.info("Created Date: {}", createdDate)
-    }
+    }*/
 
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
-        configureRouting()
+    embeddedServer(Netty, port = 8080, host = "localhost") {
         configureSecurity()
+        configureRouting()
         configureSerialization()
+        configureCallLogging()
     }.start(wait = true)
 }
